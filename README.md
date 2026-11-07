@@ -1,164 +1,153 @@
-# AgenticSync
+# The AgenticSync Skill
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform: Antigravity](https://img.shields.io/badge/Antigravity-Skill-4285F4)](https://github.com/seadib/agentic-sync)
-[![Platform: Claude](https://img.shields.io/badge/Claude-Code%20&%20Desktop-7C3AED)](https://github.com/seadib/agentic-sync)
-[![Platform: Cursor](https://img.shields.io/badge/Cursor-Rules-black)](https://github.com/seadib/agentic-sync)
-[![Standard: 4--Pillars](https://img.shields.io/badge/Architecture-4--Pillars-10b981)](https://github.com/seadib/agentic-sync)
+Five agentic guardrail skills that keep AI coding agents from getting lost, breaking architecture, or leaking secrets. Free, MIT, no signup, no API key, nothing to connect.
 
-The Autonomous Synchronization and Guardrail Protocol for AI Coding Agents.
+One maps your entire codebase into a lightweight token-budget symbol tree. One enforces a 4-pillar living documentation standard. One catches secret leaks before they reach GitHub. One runs self-healing test loops when code breaks. And one synchronizes every turn into atomic, semantic Git commits.
 
-AgenticSync prevents autonomous AI agents from hallucinating architecture, introducing technical debt, causing monolithic file bloat, or leaking credentials during multi-step development sprints.
+Built for **Google Antigravity**, **Claude Code**, **Cursor**, **Windsurf**, and autonomous coding agents.
+
+**It enforces how agents build, never how they hallucinate.** Structure and guardrails, clean-room style. Zero monolithic bloat, zero secret leaks, zero context drift.
 
 ---
 
-## Technical Overview
+## Install
 
-Autonomous coding agents (powered by Claude 3.5 Sonnet, GPT-4o, Gemini Pro) frequently encounter four critical failure modes on repositories exceeding 1,000 lines:
+Paste this into Antigravity or Claude:
 
-1. **Context Drift:** The agent modifies unintended files or loses awareness of prior architecture decisions.
-2. **Credential Exposure:** Secret keys, environment files (`.env`), or service account tokens are staged and committed to public remotes.
-3. **Monolithic Accumulation:** Code is continuously injected into single files (`app.js`, `style.css`) instead of adhering to modular system design.
-4. **Documentation Disconnect:** Code logic changes while project specifications remain stale.
+```
+https://github.com/seadib/agentic-sync
 
-AgenticSync addresses these issues through five synchronized execution phases, a 4-pillar architectural standard, token-optimized Abstract Syntax Tree (AST) mapping, and automated pre-commit verification.
+install skill
+```
 
----
+Or as a plugin, in Claude Code / Antigravity:
 
-## Installation Guide
+```
+/plugin marketplace add seadib/agentic-sync
+/plugin install agentic-sync@agentic-sync
+```
 
-### 1. Google Antigravity
-
-#### Workspace Installation (Per Project)
-Clone the skill directly into your project's `.agents/skills` directory:
+Project-local instead of global: copy the folder directly into your repo:
 
 ```bash
+# For Google Antigravity
 git clone https://github.com/seadib/agentic-sync.git .agents/skills/agentic-sync
-```
 
-Antigravity detects `SKILL.md` automatically and enforces the 4-pillar workflow.
-
-#### Global Installation (System-Wide)
-
-```bash
-# macOS / Linux
-git clone https://github.com/seadib/agentic-sync.git ~/.gemini/antigravity/skills/agentic-sync
-
-# Windows (PowerShell)
-git clone https://github.com/seadib/agentic-sync.git "$HOME\.gemini\antigravity\skills\agentic-sync"
-```
-
----
-
-### 2. Claude Code (Anthropic CLI)
-
-Add the skill directory to your Claude Code workspace configuration:
-
-```bash
-# Inside your project root
+# For Claude Code
 mkdir -p .claude/skills
 git clone https://github.com/seadib/agentic-sync.git .claude/skills/agentic-sync
 ```
 
-Add the following directive to your project's `CLAUDE.md`:
-
-```markdown
-## Development Protocol
-This project enforces the AgenticSync standard.
-Before writing or modifying code:
-1. Inspect the repository map via `python .claude/skills/agentic-sync/scripts/generate_repo_map.py .`
-2. Consult the 4-pillar documentation under `docs/` (Security, Database, Design, Logic).
-3. Execute `python .claude/skills/agentic-sync/scripts/verify_changes.py` prior to committing.
-```
-
----
-
-### 3. Cursor & Windsurf IDEs
-
-Initialize the guardrail directly in your root `.cursorrules` file:
-
-```markdown
-# AgenticSync Guardrail Policy
-- Always reference docs/00_MASTER_ROADMAP.md for task sequencing.
-- Sensitive files (*.key, *.pem, .env, service_account*.json) are strictly prohibited from staging.
-- Modularize code: do not exceed 400 lines per source file.
-- Update the corresponding docs/[01-04]_*.md changelog entry upon completing any code modification.
-```
-
-To enable pre-commit automated checks in your repository:
+Global installation across all projects:
 
 ```bash
-python .agents/skills/agentic-sync/scripts/install_hook.py
+# macOS / Linux (Claude)
+cp -r agentic-sync ~/.claude/skills/
+
+# Windows / Linux (Antigravity)
+cp -r agentic-sync ~/.gemini/antigravity/skills/
 ```
 
----
-
-### 4. ChatGPT / OpenAI Custom GPTs
-
-1. Navigate to **GPT Builder** -> **Configure** -> **Knowledge**.
-2. Upload `SKILL.md` and `templates/PILLAR_TEMPLATE.md`.
-3. In **Instructions**, declare:
-   > "Operate as a Principal Software Engineer following the AgenticSync standard. Refuse to perform undocumented edits. Break all architectural tasks into the 4 defined pillars (Security, Database, Design, Logic), and append versioned changelogs to docs/ after each turn."
+The tools need Python 3.8 or newer. Standard-library only. Nothing to pip install.
 
 ---
 
-## 4-Pillar Architectural Standard
+## The five skills
 
-AgenticSync enforces clear separation of concerns across four persistent markdown files located in `docs/`:
+| Command / Skill | What it does |
+| :--- | :--- |
+| `/agentic-map` | Scans the repo with AST symbol extraction and generates a ~1,200 token outline of functions, classes, and routes. No 8,000-line prompt bloat. |
+| `/agentic-plan` | Decomposes tasks into 4 living documentation pillars (`docs/01-04_*.md`): Security, Database, Design, and Logic. |
+| `/agentic-verify` | Pre-commit linter that detects credentials (`.env`, `service_account.json`, `*.key`) and blocks broken commits before git touches origin. |
+| `/agentic-heal` | Intercepts compiler, linter, or test failures from stdout/stderr, feeds them back to the LLM, and self-heals until tests pass. |
+| `/agentic-sync` | Synchronizes turn changes into atomic Conventional Commits and appends versioned changelog entries after every task. |
+
+---
+
+## How to use it
+
+Run them in order. Each phase reads what the last one wrote:
 
 ```
-project-root/
-└── docs/
-    ├── 00_MASTER_ROADMAP.md         # Master roadmap, information architecture, version milestones
-    ├── 01_SECURITY_AND_AUTH.md      # Credentials, secret boundaries, IAM policies, audit logs
-    ├── 02_DATABASE_AND_CMS.md       # Schemas, migrations, query projections, data models
-    ├── 03_DESIGN_AND_ASSETS.md      # CSS design tokens, layout hierarchy, asset directories
-    └── 04_LOGIC_AND_ARCHITECTURE.md # Application routing, state machines, business algorithms
+map -> plan -> execute -> verify -> sync
 ```
 
+An example: refactoring a legacy 8,000-line web portal with an external CMS and sensitive credentials:
+
+1. **`/agentic-map`** scans the project. Out comes the token-budget symbol map: 17 HTML routes, the CMS query client, and the monolith script. The agent knows exactly where functions live without reading 8,000 lines.
+2. **`/agentic-plan`** creates the 4 persistent documentation pillars under `docs/`:
+   - `01_SECURITY_AND_AUTH.md`: Audits exposed credentials and client-side password leaks.
+   - `02_DATABASE_AND_CMS.md`: Documents Sanity/Postgres schemas and query projections.
+   - `03_DESIGN_AND_ASSETS.md`: Plans CSS modularization and favicon/asset directory cleanup.
+   - `04_LOGIC_AND_ARCHITECTURE.md`: Breaks the monolith into modular ES imports.
+3. **Execution**: The agent makes targeted edits in small, isolated steps.
+4. **`/agentic-verify`**: Scans git status. It flags that a private `service_account.json` was about to be staged, aborts the commit, and prompts the agent to isolate it into a private directory.
+5. **`/agentic-sync`**: Updates the version tag (`v1.1`), records what changed in `docs/01_SECURITY_AND_AUTH.md`, and commits with a clean message: `feat(security): isolate service credentials and block public route`.
+
 ---
 
-## Performance Comparison: Before vs. After
+## The tools
 
-| Metric | Without AgenticSync | With AgenticSync Standard |
-| :--- | :--- | :--- |
-| **Context Window Overhead** | Full source files parsed (8,000+ tokens) | AST symbol maps generated (~1,200 tokens) |
-| **Credential Safety** | Secrets frequently committed inadvertently | Pre-commit hook terminates commit on secret pattern detection |
-| **Code Structure** | Monolithic accumulation | Enforced domain separation across 4 distinct pillars |
-| **Debugging & Traceability** | Untracked file alterations | Semantic versioning and changelogs appended per turn |
-| **Verification Loop** | Assumed execution success | Self-healing stdout/stderr error interception prior to completion |
-
----
-
-## Built-In CLI Utilities
-
-### 1. Repository Symbol Mapper (`generate_repo_map.py`)
-Generates an AST symbol outline of functions, classes, and exported constants within a token budget:
+Three standard-library Python scripts. None touch the network, none require pip packages:
 
 ```bash
-python scripts/generate_repo_map.py .
+python3 scripts/generate_repo_map.py .          # lightweight AST symbol tree
+python3 scripts/verify_changes.py               # pre-commit secret leak guard
+python3 scripts/install_hook.py                 # 1-click git hook installer
 ```
 
-### 2. Pre-Commit Safety Scanner (`verify_changes.py`)
-Verifies git status and prevents credentials (`service_account.json`, `.env`, `.key`) from being staged:
+- **`generate_repo_map.py`**: Parses JavaScript, TypeScript, Python, and HTML files into class signatures, method names, and exported constants. Caps output so your prompt never runs out of context.
+- **`verify_changes.py`**: Inspects `git status`. If any file matches sensitive patterns (`.env`, `credentials.json`, `service_account.json`, `*.key`), it exits with code 1 and blocks the commit.
+- **`install_hook.py`**: Injects `verify_changes.py` into `.git/hooks/pre-commit` so that even human developers cannot accidentally push secrets to public GitHub.
 
-```bash
-python scripts/verify_changes.py
+---
+
+## The 4 Pillars
+
+Every project maintains four living markdown files under `docs/`:
+
 ```
-
-### 3. Automated Git Hook Installer (`install_hook.py`)
-Configures `.git/hooks/pre-commit` to execute safety checks automatically before every commit:
-
-```bash
-python scripts/install_hook.py
+your-project/
+├── docs/
+│   ├── 00_MASTER_ROADMAP.md         # Master roadmap, information architecture, version milestones
+│   ├── 01_SECURITY_AND_AUTH.md      # Credentials, secret boundaries, IAM policies, audit logs
+│   ├── 02_DATABASE_AND_CMS.md       # Schemas, migrations, query projections, data models
+│   ├── 03_DESIGN_AND_ASSETS.md      # CSS design tokens, layout hierarchy, asset directories
+│   └── 04_LOGIC_AND_ARCHITECTURE.md # Application routing, state machines, business algorithms
 ```
 
 ---
 
-## Contributing
+## Fine print
 
-Contributions adhering to standard Conventional Commits are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and review the [MIT License](LICENSE) before submitting pull requests.
+**It enforces architecture, clean-room style.** It prevents agents from piling 500 new lines into a bloated file when a modular helper should be created.
+
+**It stops secret leaks at the local gate.** Pre-commit hooks run locally on your machine before files ever reach a remote repository.
+
+**It tracks living history.** You never wonder what an AI changed three days ago; every modification is stamped in the corresponding pillar changelog with date and version.
+
+---
+
+## Files
+
+```
+skills/agentic-sync/
+├── SKILL.md                         # Core agent instructions and workflow
+├── README.md                        # Package documentation and install guide
+├── CONTRIBUTING.md                  # Guidelines for open-source contributors
+├── LICENSE                          # MIT License
+├── scripts/
+│   ├── generate_repo_map.py         # AST symbol mapper
+│   ├── verify_changes.py            # Pre-commit secret verification
+│   └── install_hook.py              # Git pre-commit hook installer
+├── templates/
+│   └── PILLAR_TEMPLATE.md           # Starter template for the 4 pillars
+├── references/
+│   └── AIDER_SWE_ARCHITECTURE.md    # Technical deep-dive on Aider & SWE-agent
+└── examples/
+    └── BEFORE_AFTER_COMPARISON.md   # Real-world benchmark matrix
+```
 
 ## License
 
-Distributed under the **MIT License**. Copyright (c) 2026 Abdullah Al Adib (seadib).
+MIT. Copyright (c) 2026 Abdullah Al Adib ([seadib](https://github.com/seadib)). Take it, change it, ship it.
